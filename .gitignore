@@ -1,0 +1,11 @@
+target/ 
+node_modules/ 
+.angular/ 
+dist/ 
+.mvn/wrapper/maven-wrapper.jar 
+*.class 
+.vscode/ 
+.idea/ 
+ai/severity_model.pt 
+ai/vectorizer.pkl 
+backend/src/main/resources/application-secret.properties 

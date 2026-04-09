@@ -1,0 +1,9 @@
+<h2>AI Severity Predictor</h2>
+<div>
+  <label>Title / Description:</label><br>
+  <textarea [(ngModel)]="inputText" rows="4" cols="50"></textarea>
+</div>
+<button (click)="predict()">Predict Severity</button>
+<button (click)="test()">Test Click</button>
+<p *ngIf="prediction">Predicted severity: <strong>{{ prediction }}</strong></p>
+<p *ngIf="error" style="color:red">{{ error }}</p>

@@ -1,0 +1,34 @@
+<h2>{{ isEditMode ? 'Edit Incident' : 'Create Incident' }}</h2>
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label>Title:</label>
+    <input type="text" [(ngModel)]="incident.title" name="title" required>
+  </div>
+  <div>
+    <label>Description:</label>
+    <textarea [(ngModel)]="incident.description" name="description" rows="4"></textarea>
+  </div>
+  <div>
+    <label>Severity:</label>
+    <select [(ngModel)]="incident.severity" name="severity">
+      <option value="LOW">LOW</option>
+      <option value="MEDIUM">MEDIUM</option>
+      <option value="HIGH">HIGH</option>
+      <option value="CRITICAL">CRITICAL</option>
+    </select>
+  </div>
+  <div>
+    <label>Status:</label>
+    <select [(ngModel)]="incident.status" name="status">
+      <option value="OPEN">OPEN</option>
+      <option value="INVESTIGATING">INVESTIGATING</option>
+      <option value="RESOLVED">RESOLVED</option>
+    </select>
+  </div>
+  <div>
+    <label>Incident Date:</label>
+    <input type="datetime-local" [(ngModel)]="incident.incidentDate" name="incidentDate">
+  </div>
+  <button type="submit">{{ isEditMode ? 'Update' : 'Create' }}</button>
+  <button type="button" routerLink="/incidents">Cancel</button>
+</form>
