@@ -1,13 +1,15 @@
-<h2>Login</h2>
-<form (ngSubmit)="onSubmit()">
-  <div>
-    <label>Username:</label>
-    <input type="text" [(ngModel)]="username" name="username" required>
+<div class="d-flex justify-content-center align-items-center vh-100" style="background: radial-gradient(circle at 20% 30%, #0a0f1f, #000000);">
+  <div class="card p-4" style="width: 400px; background: rgba(10, 15, 31, 0.9); backdrop-filter: blur(8px);">
+    <h3 class="text-center mb-3 text-uppercase" style="color: #00ffcc; letter-spacing: 2px;">TMP Login</h3>
+    <div class="mb-3">
+      <label class="form-label text-muted">Username</label>
+      <input [(ngModel)]="username" class="form-control" placeholder="Enter username" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label text-muted">Password</label>
+      <input [(ngModel)]="password" type="password" class="form-control" placeholder="Enter password" />
+    </div>
+    <div *ngIf="error" class="alert alert-danger py-2">{{ error }}</div>
+    <button (click)="onSubmit()" class="btn btn-primary w-100">Login</button>
   </div>
-  <div>
-    <label>Password:</label>
-    <input type="password" [(ngModel)]="password" name="password" required>
-  </div>
-  <button type="submit">Login</button>
-</form>
-<p *ngIf="error" style="color:red">{{error}}</p> 
+</div>

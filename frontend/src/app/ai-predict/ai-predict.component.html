@@ -1,9 +1,31 @@
-<h2>AI Severity Predictor</h2>
-<div>
-  <label>Title / Description:</label><br>
-  <textarea [(ngModel)]="inputText" rows="4" cols="50"></textarea>
+<div class="container mt-4" style="max-width: 700px;">
+  <h2 class="text-cyan mb-4">AI Severity Predictor</h2>
+
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+    <textarea
+      [(ngModel)]="inputText"
+      rows="5"
+      class="form-control"
+      placeholder="Describe the security incident... (e.g., 'Phishing email with malicious attachment')"
+    ></textarea>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button
+      (click)="predict()"
+      class="btn btn-primary"
+      [disabled]="loading"
+    >
+      {{ loading ? 'Predicting...' : 'Predict Severity' }}
+    </button>
+  </div>
+
+  <!-- Result card -->
+  <div *ngIf="predictionResult" class="mt-4 p-3 result-card">
+    <h4 class="text-cyan mb-3">Prediction Result</h4>
+    <p><strong>Severity:</strong> {{ predictionResult.severity }}</p>
+    <p><strong>Confidence:</strong> {{ predictionResult.confidence }}%</p>
+    <p><strong>Reason:</strong> {{ predictionResult.reason }}</p>
+  </div>
 </div>
-<button (click)="predict()">Predict Severity</button>
-<button (click)="test()">Test Click</button>
-<p *ngIf="prediction">Predicted severity: <strong>{{ prediction }}</strong></p>
-<p *ngIf="error" style="color:red">{{ error }}</p>

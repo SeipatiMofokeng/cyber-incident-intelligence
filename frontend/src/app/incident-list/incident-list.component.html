@@ -1,21 +1,63 @@
-<h2>Incidents</h2>
+<div class="container mt-4">
+  <!-- Error message display -->
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
-<button routerLink="/incidents/new">Create New Incident</button>
-<button routerLink="/dashboard">Dashboard</button>
-<table border="1">
-  <thead>
-    <tr><th>ID</th><th>Title</th><th>Severity</th><th>Status</th><th>Actions</th></tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let inc of incidents">
-      <td>{{inc.id}}</td>
-      <td>{{inc.title}}</td>
-      <td>{{inc.severity}}</td>
-      <td>{{inc.status}}</td>
-      <td>
-        <button [routerLink]="['/incidents', inc.id]">Edit</button>
-        <button (click)="deleteIncident(inc.id)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Incidents</h2>
+    <div>
+      <a routerLink="/incidents/new" class="btn btn-success me-2">+ New Incident</a>
+      <a routerLink="/dashboard" class="btn btn-outline-secondary">Dashboard</a>
+    </div>
+  </div>
+
+  <table class="table table-striped table-hover table-bordered shadow-sm">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Severity</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading">
+        <td colspan="5" class="text-center py-4">Loading incidents...</td>
+      </tr>
+
+      <tr *ngIf="!loading && incidents.length === 0">
+        <td colspan="5" class="text-center py-4">No incidents found.</td>
+      </tr>
+
+      <tr *ngFor="let incident of incidents">
+        <td>{{ incident.id }}</td>
+        <td>{{ incident.title }}</td>
+        <td>
+          <span class="badge"
+            [ngClass]="{
+              'bg-success': incident.severity === 'LOW',
+              'bg-primary': incident.severity === 'MEDIUM',
+              'bg-warning': incident.severity === 'HIGH',
+              'bg-danger': incident.severity === 'CRITICAL'
+            }">
+            {{ incident.severity }}
+          </span>
+        </td>
+        <td>
+          <span class="badge"
+            [ngClass]="{
+              'status-open': incident.status === 'OPEN',
+              'status-investigating': incident.status === 'INVESTIGATING',
+              'status-resolved': incident.status === 'RESOLVED'
+            }">
+            {{ incident.status }}
+          </span>
+        </td>
+        <td>
+          <a [routerLink]="['/incidents', incident.id]" class="btn btn-sm btn-warning me-1">Edit</a>
+          <button *ngIf="isAdmin()" class="btn btn-sm btn-danger" (click)="deleteIncident(incident.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

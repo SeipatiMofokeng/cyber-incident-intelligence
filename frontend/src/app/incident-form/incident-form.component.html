@@ -1,34 +1,52 @@
-<h2>{{ isEditMode ? 'Edit Incident' : 'Create Incident' }}</h2>
-<form (ngSubmit)="onSubmit()">
-  <div>
-    <label>Title:</label>
-    <input type="text" [(ngModel)]="incident.title" name="title" required>
+<div class="incident-form-container">
+  <div class="card p-4">
+    <h2>{{ isEditMode ? 'Edit Incident' : 'Create Incident' }}</h2>
+    <!-- Error message display -->
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <form (ngSubmit)="onSubmit()">
+      <!-- Title -->
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input type="text" class="form-control" [(ngModel)]="incident.title" name="title" required>
+      </div>
+      <!-- Description -->
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" [(ngModel)]="incident.description" name="description" rows="4"></textarea>
+      </div>
+      <!-- Severity (custom dropdown) -->
+      <div class="mb-3">
+        <label class="form-label">Severity</label>
+        <div class="custom-select" (click)="toggleSeverityDropdown()" (blur)="closeSeverityDropdown()" tabindex="0">
+          <div class="selected-option">{{ incident.severity || 'Select severity' }}</div>
+          <div class="dropdown-options" *ngIf="severityDropdownOpen">
+            <div *ngFor="let option of severityOptions" (click)="selectSeverity(option)" class="dropdown-option" [class.selected]="option === incident.severity">
+              {{ option }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Status (custom dropdown) -->
+      <div class="mb-3">
+        <label class="form-label">Status</label>
+        <div class="custom-select" (click)="toggleStatusDropdown()" (blur)="closeStatusDropdown()" tabindex="0">
+          <div class="selected-option">{{ incident.status || 'Select status' }}</div>
+          <div class="dropdown-options" *ngIf="statusDropdownOpen">
+            <div *ngFor="let option of statusOptions" (click)="selectStatus(option)" class="dropdown-option" [class.selected]="option === incident.status">
+              {{ option }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Incident Date -->
+      <div class="mb-3">
+        <label class="form-label">Incident Date</label>
+        <input type="datetime-local" class="form-control" [(ngModel)]="incident.incidentDate" name="incidentDate">
+      </div>
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Create' }}</button>
+        <button type="button" class="btn btn-secondary" routerLink="/incidents">Cancel</button>
+      </div>
+    </form>
   </div>
-  <div>
-    <label>Description:</label>
-    <textarea [(ngModel)]="incident.description" name="description" rows="4"></textarea>
-  </div>
-  <div>
-    <label>Severity:</label>
-    <select [(ngModel)]="incident.severity" name="severity">
-      <option value="LOW">LOW</option>
-      <option value="MEDIUM">MEDIUM</option>
-      <option value="HIGH">HIGH</option>
-      <option value="CRITICAL">CRITICAL</option>
-    </select>
-  </div>
-  <div>
-    <label>Status:</label>
-    <select [(ngModel)]="incident.status" name="status">
-      <option value="OPEN">OPEN</option>
-      <option value="INVESTIGATING">INVESTIGATING</option>
-      <option value="RESOLVED">RESOLVED</option>
-    </select>
-  </div>
-  <div>
-    <label>Incident Date:</label>
-    <input type="datetime-local" [(ngModel)]="incident.incidentDate" name="incidentDate">
-  </div>
-  <button type="submit">{{ isEditMode ? 'Update' : 'Create' }}</button>
-  <button type="button" routerLink="/incidents">Cancel</button>
-</form>
+</div>

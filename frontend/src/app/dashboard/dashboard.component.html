@@ -1,9 +1,29 @@
-<h2>Incident Dashboard</h2>
-<div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-  <div style="width: 400px; height: 400px;">
-    <canvas id="severityChart"></canvas>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="text-cyan">📊 Incident Dashboard</h2>
+  <small class="text-muted">Last updated: {{ lastUpdated | date:'HH:mm:ss' }}</small>
+</div>
+
+<!-- Error message display -->
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+<div class="row">
+  <!-- Severity bar chart -->
+  <div class="col-md-6 mb-4">
+    <div class="card p-3" style="height: 500px;">
+      <h4 class="text-center text-cyan mb-2">Severity of Incidents</h4>
+      <div style="height: calc(100% - 40px);">
+        <canvas id="severityChart" style="width: 100%; height: 100%;"></canvas>
+      </div>
+    </div>
   </div>
-  <div style="width: 400px; height: 400px;">
-    <canvas id="statusChart"></canvas>
+
+  <!-- Status pie chart -->
+  <div class="col-md-6 mb-4">
+    <div class="card p-3" style="height: 500px;">
+      <h4 class="text-center text-cyan mb-2">Status of Incidents</h4>
+      <div style="height: calc(100% - 40px);">
+        <canvas id="statusChart" style="width: 100%; height: 100%;"></canvas>
+      </div>
+    </div>
   </div>
 </div>

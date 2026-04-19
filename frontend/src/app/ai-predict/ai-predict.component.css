@@ -1,0 +1,10 @@
+.result-card {
+  background: #0a0f1f;
+  border: 1px solid #00ffcc;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0, 255, 204, 0.3);
+}
+
+.text-cyan {
+  color: #00ffcc;
+}

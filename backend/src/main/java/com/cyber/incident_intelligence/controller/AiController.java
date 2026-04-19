@@ -5,8 +5,9 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,17 +36,17 @@ public class AiController {
                 output.append(line);
             }
             String rawOutput = output.toString().trim();
-            System.out.println("Raw output from Python: " + rawOutput); // log to backend console
+            System.out.println("Raw output from Python: " + rawOutput);
 
-            // Use regex to extract severity
-            Pattern pattern = Pattern.compile("\"predicted_severity\"\\s*:\\s*\"([^\"]+)\"");
-            Matcher matcher = pattern.matcher(rawOutput);
-            if (matcher.find()) {
-                String severity = matcher.group(1);
-                response.put("predicted_severity", severity);
-            } else {
-                response.put("error", "Could not parse severity from: " + rawOutput);
-            }
+            // Parse JSON using Jackson
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> pythonResult = mapper.readValue(rawOutput, new TypeReference<Map<String, Object>>() {});
+            
+            String severity = (String) pythonResult.get("predicted_severity");
+            Double confidence = (Double) pythonResult.get("confidence");
+            
+            response.put("predicted_severity", severity);
+            response.put("confidence", String.valueOf(confidence));
 
             // Read stderr for debugging
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(p.getErrorStream()));

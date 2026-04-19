@@ -13,10 +13,10 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(credentials: any): Observable<any> {
-    return this.http.post<{token: string}>(`${this.baseUrl}/login`, credentials).pipe(
-      tap(response => localStorage.setItem(this.tokenKey, response.token))
-    );
-  }
+  return this.http.post<any>(`${this.baseUrl}/login`, credentials).pipe(
+    tap(response => localStorage.setItem(this.tokenKey, response.token))
+  );
+}
 
   logout(): void {
     localStorage.removeItem(this.tokenKey);

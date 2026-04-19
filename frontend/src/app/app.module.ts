@@ -11,15 +11,16 @@ import { IncidentFormComponent } from './incident-form/incident-form.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AiPredictComponent } from './ai-predict/ai-predict.component';
 import { AuthGuard } from './auth.guard';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'incidents', component: IncidentListComponent },
+  { path: 'incidents', component: IncidentListComponent, canActivate: [AuthGuard] },
   { path: 'incidents/new', component: IncidentFormComponent, canActivate: [AuthGuard] },
   { path: 'incidents/:id', component: IncidentFormComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'ai-predict', component: AiPredictComponent, canActivate: [AuthGuard] }
+  { path: 'ai-predict', component: AiPredictComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
@@ -29,16 +30,17 @@ const routes: Routes = [
     IncidentListComponent,
     IncidentFormComponent,
     DashboardComponent,
-    AiPredictComponent
+    AiPredictComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
   ],
   providers: [AuthGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

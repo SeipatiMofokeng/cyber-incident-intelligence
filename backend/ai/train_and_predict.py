@@ -5,6 +5,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.utils.class_weight import compute_class_weight
+import numpy as np
 import pickle
 import os
 
@@ -20,7 +22,7 @@ class SeverityModel(nn.Module):
 conn = pymysql.connect(
     host='localhost',
     user='root',
-    password='Mof@keng2002.',   
+    password='Mof@keng2002.',   # replace with your MySQL password
     database='cyberdb'
 )
 cursor = conn.cursor()
@@ -54,11 +56,17 @@ else:
     y = torch.tensor(y, dtype=torch.long)
 
     model = SeverityModel(X.shape[1])
-    criterion = nn.CrossEntropyLoss()
+
+    # Class weights to handle imbalance
+    classes = np.unique(y.numpy())
+    weights = compute_class_weight('balanced', classes=classes, y=y.numpy())
+    class_weights = torch.tensor(weights, dtype=torch.float32)
+    criterion = nn.CrossEntropyLoss(weight=class_weights)
+
     optimizer = optim.Adam(model.parameters(), lr=0.01)
 
-    # Train
-    for epoch in range(100):
+    # Train (increase epochs for better learning)
+    for epoch in range(200):
         optimizer.zero_grad()
         outputs = model(X)
         loss = criterion(outputs, y)
@@ -70,15 +78,22 @@ else:
     with open(vectorizer_path, 'wb') as f:
         pickle.dump(vectorizer, f)
 
-# Prediction
+# Prediction with confidence
 if len(sys.argv) > 1:
     input_text = sys.argv[1]
     X_input = vectorizer.transform([input_text]).toarray()
     X_input = torch.tensor(X_input, dtype=torch.float32)
     with torch.no_grad():
-        output = model(X_input)
-        pred = torch.argmax(output, dim=1).item()
+        outputs = model(X_input)
+        probabilities = torch.softmax(outputs, dim=1)
+        confidence, pred = torch.max(probabilities, 1)
+        pred_class = pred.item()
+        confidence_score = confidence.item() * 100
     rev_map = {0:'LOW', 1:'MEDIUM', 2:'HIGH', 3:'CRITICAL'}
-    print(json.dumps({"predicted_severity": rev_map[pred]}), flush=True)
+    result = {
+        "predicted_severity": rev_map[pred_class],
+        "confidence": round(confidence_score, 2)
+    }
+    print(json.dumps(result), flush=True)
 else:
     print(json.dumps({"error": "No input"}), flush=True)

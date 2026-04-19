@@ -1,0 +1,13 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3 ">
+  <!-- Logo image  enlarged -->
+  <div class="d-flex align-items-center">
+    <img src="/TMP_final.png" alt="TMP Logo" style="height: 80px; width: auto;">
+  </div>
+  <!-- Navigation buttons on the right -->
+  <div class="d-flex gap-2 ms-auto">
+    <a routerLink="/incidents" class="btn btn-outline-light btn-sm">Incidents</a>
+    <a routerLink="/dashboard" class="btn btn-outline-light btn-sm">Dashboard</a>
+    <a routerLink="/ai-predict" class="btn btn-outline-light btn-sm">AI Predictor</a>
+    <button class="btn btn-danger btn-sm" (click)="logout()">Logout</button>
+  </div>
+</nav>

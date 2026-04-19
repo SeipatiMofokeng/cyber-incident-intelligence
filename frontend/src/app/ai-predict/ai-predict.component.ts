@@ -6,39 +6,72 @@ import { AuthService } from '../auth.service';
   selector: 'app-ai-predict',
   templateUrl: './ai-predict.component.html',
   styleUrls: ['./ai-predict.component.css'],
-  standalone: false   
+  standalone: false
 })
 export class AiPredictComponent {
   inputText = '';
-  prediction = '';
-  error = '';
+  loading = false;
+  predictionResult: any = null;
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService
+  ) {}
 
   predict(): void {
-  console.log('Predict called with text:', this.inputText);
-  const token = this.auth.getToken();
-  console.log('Token being used:', token);
-  if (!token) {
-    this.error = 'No authentication token. Please log in again.';
-    return;
-  }
-  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`).set('Content-Type', 'application/json');
-  this.http.post<{predicted_severity: string}>('http://localhost:8080/api/ai/predict', { text: this.inputText }, { headers })
-    .subscribe({
+    if (this.loading || !this.inputText.trim()) return;
+    this.loading = true;
+    this.predictionResult = null;
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.auth.getToken()}`);
+    this.http.post<{predicted_severity: string, confidence: number}>(
+      'http://localhost:8080/api/ai/predict',
+      { text: this.inputText },
+      { headers }
+    ).subscribe({
       next: (res) => {
-        console.log('Prediction response:', res);
-        this.prediction = res.predicted_severity;
-        this.error = '';
+        this.predictionResult = {
+          severity: res.predicted_severity,
+          confidence: res.confidence,
+          reason: this.generateReason(this.inputText, res.predicted_severity)
+        };
+        this.loading = false;
       },
       error: (err) => {
-        console.error('Prediction error:', err);
-        this.error = `Prediction failed: ${err.status} ${err.statusText}`;
-        if (err.error && err.error.error) this.error += ` - ${err.error.error}`;
+        console.error('AI prediction error:', err);
+        this.predictionResult = {
+          severity: 'Error',
+          confidence: 0,
+          reason: 'Could not connect to AI service. Make sure the backend is running.'
+        };
+        this.loading = false;
       }
     });
-}
-  test(): void {
-  console.log('Test button clicked');
-}
+  }
+
+  private generateReason(text: string, severity: string): string {
+    const lower = text.toLowerCase();
+    if (lower.includes('login') || lower.includes('credential')) {
+      return 'Multiple failed login attempts detected';
+    }
+    if (lower.includes('malware') || lower.includes('virus')) {
+      return 'Suspicious file execution pattern';
+    }
+    if (lower.includes('phishing')) {
+      return 'Suspicious email with malicious link';
+    }
+    if (lower.includes('ddos') || lower.includes('flood')) {
+      return 'Unusual traffic volume detected';
+    }
+    if (severity === 'CRITICAL') {
+      return 'Immediate threat detected – requires urgent action';
+    }
+    if (severity === 'HIGH') {
+      return 'Significant risk – prioritize investigation';
+    }
+    if (severity === 'MEDIUM') {
+      return 'Moderate risk – schedule analysis';
+    }
+    return 'Anomalous network activity observed';
+  }
 }

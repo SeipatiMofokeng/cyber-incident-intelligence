@@ -1,1 +1,440 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+:root {
+  --bg-dark: #0a0f1f;
+  --bg-darker: #05080f;
+  --primary-glow: #00ffcc;
+  --primary-dim: #00b894;
+  --accent-red: #ff3366;
+  --text-muted: #8ba0b5;
+  --border-glow: 0 0 5px rgba(0, 255, 204, 0.3);
+}
+
+* {
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle at 20% 30%, var(--bg-dark), #000000);
+  color: #e0e5ec;
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+/* Fixed navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  background: var(--bg-darker) !important;
+  border-bottom: 1px solid var(--primary-dim);
+  box-shadow: var(--border-glow);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.navbar-brand {
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #fff, var(--primary-glow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+.navbar .btn {
+  border: 1px solid var(--primary-dim);
+  color: var(--primary-dim);
+  background: transparent;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+.navbar .btn:hover {
+  background: var(--primary-dim);
+  color: #000;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+.navbar .btn-danger {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+.navbar .btn-danger:hover {
+  background: var(--accent-red);
+  color: #000;
+  box-shadow: 0 0 8px var(--accent-red);
+}
+
+.card {
+  background: rgba(10, 15, 31, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 255, 204, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-dim), var(--primary-glow));
+  border: none;
+  color: #0a0f1f;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-glow), var(--primary-dim));
+  box-shadow: 0 0 12px var(--primary-glow);
+  color: #000;
+}
+
+/*  TABLES  */
+.table,
+.table tbody,
+.table tr,
+.table td,
+.table th {
+  background-color: #0a0f1f !important;
+  color: #ffffff !important;
+  border-color: #1e2a3a !important;
+}
+.table thead th {
+  background-color: #05080f !important;
+  color: var(--primary-glow) !important;
+  border-bottom: 2px solid var(--primary-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.table tbody tr:hover {
+  background-color: rgba(0, 255, 204, 0.1) !important;
+}
+
+/*  BADGES – DEFAULT CYAN, HOVER = SPECIFIC COLOR  */
+.badge {
+  font-family: monospace;
+  text-transform: uppercase;
+  padding: 0.4em 0.8em;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: var(--primary-glow) !important;
+  color: #000000 !important;
+}
+
+/* ----- SEVERITY BADGES – hover overrides ----- */
+.badge.bg-success:hover {  /* LOW */
+  background: #2c6e5c !important;
+  color: #ffffff !important;
+  transform: scale(1.02);
+  box-shadow: 0 0 8px #2c6e5c;
+}
+.badge.bg-primary:hover {  /* MEDIUM */
+  background: #e6a017 !important;
+  color: #000000 !important;
+  transform: scale(1.02);
+  box-shadow: 0 0 8px #e6a017;
+}
+.badge.bg-warning:hover {  /* HIGH */
+  background: #e67e22 !important;
+  color: #ffffff !important;
+  transform: scale(1.02);
+  box-shadow: 0 0 8px #e67e22;
+}
+.badge.bg-danger:hover {   /* CRITICAL */
+  background: #c0392b !important;
+  color: #ffffff !important;
+  transform: scale(1.02);
+  box-shadow: 0 0 8px #c0392b;
+}
+
+/* ----- STATUS BADGES (custom classes) – hover overrides ----- */
+.status-open:hover {
+  background: #2980b9 !important; /* cool blue */
+  color: #ffffff !important;
+  transform: scale(1.02);
+  box-shadow: 0 0 8px #2980b9;
+}
+.status-investigating:hover {
+  background: #f1c40f !important; /* amber */
+  color: #000000 !important;
+  transform: scale(1.02);
+  box-shadow: 0 0 8px #f1c40f;
+}
+.status-resolved:hover {
+  background: #27ae60 !important; /* emerald green */
+  color: #ffffff !important;
+  transform: scale(1.02);
+  box-shadow: 0 0 8px #27ae60;
+}
+
+/*  BUTTONS   */
+.btn-warning {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid var(--primary-dim) !important;
+}
+.btn-warning:hover {
+  background-color: #ffcc00 !important;
+  color: #000000 !important;
+  border-color: #ffcc00 !important;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.btn-danger {
+  background: var(--accent-red);
+  border: none;
+  color: #ffffff;
+}
+.btn-danger:hover {
+  background: #ff5e8e;
+  color: #000000;
+  box-shadow: 0 0 8px var(--accent-red);
+}
+
+.btn-success {
+  background: #000000;
+  border: 1px solid var(--primary-glow);
+  color: var(--primary-glow);
+}
+.btn-success:hover {
+  background: var(--primary-glow);
+  color: #000000;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.btn-outline-secondary {
+  border-color: #4a5b6e;
+  color: #e0e5ec;
+}
+.btn-outline-secondary:hover {
+  background: #4a5b6e;
+  color: #fff;
+}
+
+.btn-warning:hover,
+.btn-danger:hover,
+.btn-success:hover,
+.btn-outline-secondary:hover {
+  transition: all 0.2s ease;
+}
+
+/* FORMS – general */
+.form-control, .form-select {
+  background: #0f172a;
+  border: 1px solid #2d3a4a;
+  color: #e0e5ec;
+}
+.form-control:focus, .form-select:focus {
+  background: #0f172a;
+  border-color: var(--primary-glow);
+  box-shadow: 0 0 8px var(--primary-glow);
+  color: #fff;
+}
+.form-label {
+  color: #a0f0e8 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 5px rgba(0,255,204,0.3);
+}
+
+.container {
+  background: transparent;
+}
+
+/*  INCIDENT FORM PAGE – Black background, cyan/white text */
+form .card,
+.incident-form-container .card {
+  background: #000000 !important;
+  border: 1px solid var(--primary-dim);
+  box-shadow: var(--border-glow);
+}
+
+/* Form labels – cyan */
+form .form-label,
+.incident-form-container .form-label {
+  color: var(--primary-glow) !important;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Input fields, textarea, selects – dark background, white text */
+form .form-control,
+form .form-select,
+form textarea {
+  background-color: #0a0f1f !important;
+  border: 1px solid #2d3a4a !important;
+  color: #ffffff !important;
+}
+form .form-control:focus,
+form .form-select:focus,
+form textarea:focus {
+  border-color: var(--primary-glow) !important;
+  box-shadow: 0 0 8px var(--primary-glow);
+  color: #ffffff;
+}
+
+/* Headings inside the form – cyan */
+form h2,
+form h3,
+.incident-form-container h2 {
+  color: var(--primary-glow) !important;
+  text-shadow: 0 0 5px rgba(0,255,204,0.3);
+}
+
+/* Buttons – match existing cyber buttons */
+form .btn-primary {
+  background: linear-gradient(135deg, var(--primary-dim), var(--primary-glow));
+  border: none;
+  color: #000000;
+}
+form .btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-glow), var(--primary-dim));
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+form .btn-secondary {
+  background: transparent;
+  border: 1px solid var(--primary-dim);
+  color: var(--primary-glow);
+}
+form .btn-secondary:hover {
+  background: var(--primary-dim);
+  color: #000000;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+/* Custom select dropdown – dark background, cyan hover for options */
+select.form-select {
+  background-color: #0a0f1f !important;
+  color: #ffffff !important;
+  border: 1px solid #2d3a4a !important;
+}
+
+select.form-select option {
+  background-color: #0a0f1f !important;
+  color: #ffffff !important;
+}
+
+select.form-select option:hover,
+select.form-select option:checked,
+select.form-select option:focus {
+  background-color: var(--primary-glow) !important;
+  color: #000000 !important;
+}
+
+
+select.form-select option:active {
+  background-color: var(--primary-glow) !important;
+  color: #000000 !important;
+}
+
+/* CUSTOM DROPDOWN (for incident form) – white text, cyan hover  */
+.custom-select {
+  position: relative;
+  width: 100%;
+  background: #0a0f1f;
+  border: 1px solid #2d3a4a;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.selected-option {
+  padding: 0.375rem 0.75rem;
+  color: #ffffff;
+  background: #0a0f1f;
+  border-radius: 4px;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #0a0f1f;
+  border: 1px solid #2d3a4a;
+  border-radius: 4px;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-option {
+  padding: 0.375rem 0.75rem;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dropdown-option:hover,
+.dropdown-option.selected {
+  background: var(--primary-glow) !important;
+  color: #000000 !important;
+}
+
+/*  AI PREDICTOR PAGE – Black background, cyan buttons  */
+app-ai-predict .container,
+app-ai-predict .card {
+  background: #000000 !important;
+  border: 1px solid var(--primary-dim);
+  box-shadow: var(--border-glow);
+}
+
+app-ai-predict h2 {
+  color: var(--primary-glow) !important;
+  text-shadow: 0 0 5px rgba(0,255,204,0.3);
+}
+
+app-ai-predict .form-label {
+  color: var(--primary-glow) !important;
+}
+
+app-ai-predict textarea {
+  background-color: #0a0f1f !important;
+  border: 1px solid #2d3a4a !important;
+  color: #ffffff !important;
+}
+app-ai-predict textarea:focus {
+  border-color: var(--primary-glow) !important;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+/* Buttons – cyan theme */
+app-ai-predict .btn-primary {
+  background: linear-gradient(135deg, var(--primary-dim), var(--primary-glow));
+  border: none;
+  color: #000000;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+app-ai-predict .btn-primary:hover {
+  background: linear-gradient(135deg, var(--primary-glow), var(--primary-dim));
+  box-shadow: 0 0 12px var(--primary-glow);
+  color: #000;
+}
+
+/* Optional: style the "Test Click" button if it's a different class */
+app-ai-predict .btn-secondary {
+  background: transparent;
+  border: 1px solid var(--primary-dim);
+  color: var(--primary-glow);
+}
+app-ai-predict .btn-secondary:hover {
+  background: var(--primary-dim);
+  color: #000;
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+.text-cyan {
+  color: #00ffcc;
+}
